@@ -1,3 +1,14 @@
+# libbaseencode - Windows Port
+
+Port of the libbaseencode library which compiles on Windows using Visual Studio (both 32-bit and 64-bit supported).
+
+Porting done by Twilight under the project's original license.
+
+
+
+Original README.md From uptree project -
+
+
 # libbaseencode
 <a href="https://scan.coverity.com/projects/paolostivanin-libbaseencode">
   <img alt="Coverity Scan Build Status"
