@@ -5,6 +5,10 @@
 #include <ctype.h>
 #include "common.h"
 
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
+
 static int is_valid_b64_input(const char *user_data, size_t data_len);
 
 static int get_char_index(unsigned char c);

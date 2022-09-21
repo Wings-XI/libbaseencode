@@ -41,7 +41,7 @@ check_input(const unsigned char *user_data, size_t data_len, int max_len, baseen
         return;
     }
 
-    if (data_len > max_len) {
+    if (data_len > (unsigned)max_len) {
         *err = INPUT_TOO_BIG;
         return;
     }

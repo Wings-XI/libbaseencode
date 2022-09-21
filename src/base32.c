@@ -4,6 +4,9 @@
 #include <string.h>
 #include "common.h"
 
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
 
 static int is_valid_b32_input(const char *user_data, size_t data_len);
 
@@ -29,7 +32,7 @@ base32_encode(const unsigned char *user_data, size_t data_len, baseencode_error_
 
     size_t user_data_chars = 0, total_bits = 0;
     int num_of_equals = 0;
-    for (int i = 0; i < data_len; i++) {
+    for (size_t i = 0; i < data_len; i++) {
         // As it's not known whether data_len is with or without the +1 for the null byte, a manual check is required.
         // Check for null byte only at the end of the user given length, otherwise issue#23 may occur
         if (user_data[i] == '\0' && i == data_len-1) {
@@ -65,7 +68,7 @@ base32_encode(const unsigned char *user_data, size_t data_len, baseencode_error_
 
     uint64_t first_octet, second_octet, third_octet, fourth_octet, fifth_octet;
     uint64_t quintuple;
-    for (int i = 0, j = 0; i < user_data_chars;) {
+    for (size_t i = 0, j = 0; i < user_data_chars;) {
         first_octet = i < user_data_chars ? user_data[i++] : 0;
         second_octet = i < user_data_chars ? user_data[i++] : 0;
         third_octet = i < user_data_chars ? user_data[i++] : 0;
@@ -125,7 +128,7 @@ base32_decode(const char *user_data_untrimmed, size_t data_len, baseencode_error
     }
 
     size_t user_data_chars = 0;
-    for (int i = 0; i < data_len; i++) {
+    for (size_t i = 0; i < data_len; i++) {
         // As it's not known whether data_len is with or without the +1 for the null byte, a manual check is required.
         if (user_data[i] != '=' && user_data[i] != '\0') {
             user_data_chars += 1;
@@ -142,7 +145,7 @@ base32_decode(const char *user_data_untrimmed, size_t data_len, baseencode_error
 
     uint8_t mask = 0, current_byte = 0;
     int bits_left = 8;
-    for (int i = 0, j = 0; i < user_data_chars; i++) {
+    for (size_t i = 0, j = 0; i < user_data_chars; i++) {
         int char_index = get_char_index((unsigned char)user_data[i]);
         if (bits_left > BITS_PER_B32_BLOCK) {
             mask = (uint8_t) char_index << (bits_left - BITS_PER_B32_BLOCK);
@@ -169,12 +172,12 @@ static int
 is_valid_b32_input(const char *user_data, size_t data_len)
 {
     size_t found = 0, b32_alphabet_len = sizeof(b32_alphabet);
-    for (int i = 0; i < data_len; i++) {
+    for (size_t i = 0; i < data_len; i++) {
         if (user_data[i] == '\0') {
             found++;
             break;
         }
-        for(int j = 0; j < b32_alphabet_len; j++) {
+        for(size_t j = 0; j < b32_alphabet_len; j++) {
             if(user_data[i] == b32_alphabet[j] || user_data[i] == '=') {
                 found++;
                 break;

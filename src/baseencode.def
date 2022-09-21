@@ -1,0 +1,7 @@
+LIBRARY libbaseencode
+
+EXPORTS
+	base32_encode
+	base32_decode
+	base64_encode
+	base64_decode
